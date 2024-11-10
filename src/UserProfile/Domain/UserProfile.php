@@ -7,13 +7,14 @@ use Patchlevel\EventSourcing\Aggregate\BasicAggregateRoot;
 use Patchlevel\EventSourcing\Attribute\Aggregate;
 use Patchlevel\EventSourcing\Attribute\Apply;
 use Patchlevel\EventSourcing\Attribute\Id;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @see UserProfileTest
  */
 #[Aggregate('user_profile')]
-final class UserProfile extends BasicAggregateRoot
+final class UserProfile extends BasicAggregateRoot implements PasswordAuthenticatedUserInterface
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -28,14 +29,14 @@ final class UserProfile extends BasicAggregateRoot
         UserProfileId $id,
         string $email,
         string $password,
-        PasswordHasherInterface $passwordHasher,
+        UserPasswordHasherInterface $passwordHasher,
     ): self
     {
         $self = new self();
         $self->recordThat(new RegistrationStarted(
             $id,
             $email,
-            $passwordHasher->hash($password),
+            $passwordHasher->hashPassword($self, $password),
         ));
 
         return $self;
@@ -65,5 +66,10 @@ final class UserProfile extends BasicAggregateRoot
         $this->id = $event->id;
         $this->email = $event->email;
         $this->hashedPassword = $event->hashedPassword;
+    }
+
+    #[\Override] public function getPassword(): ?string
+    {
+        return $this->hashedPassword;
     }
 }
