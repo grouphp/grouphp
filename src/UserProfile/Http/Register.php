@@ -5,14 +5,15 @@ namespace App\UserProfile\Http;
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileId;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Form\RegistrationData;
-use App\UserProfile\Form\RegistrationType;
+use App\UserProfile\Projector\Credentials;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('register')]
 #[AsController]
@@ -22,6 +23,8 @@ final class Register extends AbstractController
         Request $request,
         UserPasswordHasherInterface $hasher,
         UserProfileRepository $profiles,
+        Credentials $credentials,
+        TranslatorInterface $translator,
     ): Response
     {
         $form = $this->createForm(RegistrationType::class);
@@ -32,7 +35,10 @@ final class Register extends AbstractController
             /** @var RegistrationData $data */
             $data = $form->getData();
 
-            // TODO: Check if email address already exists.
+            if ($credentials->findByEmail($data->email)) {
+                $form->addError(new FormError($translator->trans('email_in_use')));
+                goto render;
+            }
 
             $profile = UserProfile::startWithRegistration(
                 UserProfileId::generate(),
@@ -44,6 +50,7 @@ final class Register extends AbstractController
             $profiles->save($profile);
         }
 
+        render:
         return $this->render('register.html.twig', [
             'form' => $form,
         ]);

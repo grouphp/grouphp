@@ -3,6 +3,7 @@
 namespace App\UserProfile\Projector;
 
 use App\UserProfile\Domain\Event\RegistrationStarted;
+use App\UserProfile\Domain\UserProfileId;
 use Doctrine\DBAL\Connection;
 use Patchlevel\EventSourcing\Attribute\Setup;
 use Patchlevel\EventSourcing\Attribute\Subscribe;
@@ -56,5 +57,17 @@ final class Credentials
     private function table(): string
     {
         return 'projection_' . $this->subscriberId();
+    }
+
+    public function findByEmail(string $email): ?UserProfileId
+    {
+        $profileId = $this->connection->executeQuery(
+            "SELECT user_profile_id FROM {$this->table()} WHERE email = :email",
+            [
+                'email' => $email,
+            ]
+        )->fetchOne();
+
+        return UserProfileId::fromString($profileId);
     }
 }

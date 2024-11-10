@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\UserProfile\Form;
+namespace App\UserProfile\Http;
 
 use Symfony\Component\Validator\Constraints as Assert;
+
 final class RegistrationData
 {
     #[Assert\NotBlank]

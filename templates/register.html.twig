@@ -2,6 +2,7 @@
 
 {% block body %}
     {{ form_start(form) }}
+        {{ form_errors(form) }}
         {{ form_rest(form) }}
         <button>{{ "register_now"|trans }}</button>
     {{ form_end(form) }}
