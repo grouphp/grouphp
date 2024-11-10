@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method App\\\\UserProfile\\\\Domain\\\\UserProfile\\:\\:email\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/UserProfile/Domain/UserProfile.php
+
+		-
+			message: "#^Method App\\\\UserProfile\\\\Domain\\\\UserProfile\\:\\:password\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/UserProfile/Domain/UserProfile.php
