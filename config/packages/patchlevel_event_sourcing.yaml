@@ -3,6 +3,7 @@ patchlevel_event_sourcing:
     events: '%kernel.project_dir%/src'
     connection:
         url: '%env(EVENTSTORE_URL)%'
+    cryptography: ~
 
 when@dev:
     patchlevel_event_sourcing:

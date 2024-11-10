@@ -7,6 +7,8 @@ use Patchlevel\EventSourcing\Aggregate\BasicAggregateRoot;
 use Patchlevel\EventSourcing\Attribute\Aggregate;
 use Patchlevel\EventSourcing\Attribute\Apply;
 use Patchlevel\EventSourcing\Attribute\Id;
+use Patchlevel\Hydrator\Attribute\DataSubjectId;
+use Patchlevel\Hydrator\Attribute\PersonalData;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
@@ -20,8 +22,10 @@ final class UserProfile extends BasicAggregateRoot implements PasswordAuthentica
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[Id]
+    #[DataSubjectId]
     private UserProfileId $id;
 
+    #[PersonalData]
     private ?string $email = null;
     private ?string $hashedPassword = null;
 

@@ -8,12 +8,12 @@ use Patchlevel\Hydrator\Attribute\DataSubjectId;
 use Patchlevel\Hydrator\Attribute\PersonalData;
 
 #[Event(name: 'user_profile.registration_started')]
-final class RegistrationStarted
+final readonly class RegistrationStarted
 {
     public function __construct(
         #[DataSubjectId]
         public UserProfileId $id,
-        #[PersonalData(fallback: 'unknown')]
+        #[PersonalData(fallback: 'redacted')]
         public string $email,
         public string $hashedPassword,
     ) {}
