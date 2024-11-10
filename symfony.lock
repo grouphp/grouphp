@@ -38,6 +38,18 @@
             "migrations/.gitignore"
         ]
     },
+    "patchlevel/event-sourcing-bundle": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "91932c37280d7b1473ad57e23ca12580a88877b9"
+        },
+        "files": [
+            "config/packages/patchlevel_event_sourcing.yaml"
+        ]
+    },
     "phpstan/phpstan": {
         "version": "1.12",
         "recipe": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f291569d5496edfb8371f8c5c1cc4bf9",
+    "content-hash": "0c3257336d4c4a32c4105e835f73635c",
     "packages": [
         {
             "name": "baldinof/roadrunner-bundle",
@@ -92,6 +92,66 @@
                 }
             ],
             "time": "2024-06-12T06:56:00+00:00"
+        },
+        {
+            "name": "brick/math",
+            "version": "0.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/math.git",
+                "reference": "f510c0a40911935b77b86859eb5223d58d660df1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/math/zipball/f510c0a40911935b77b86859eb5223d58d660df1",
+                "reference": "f510c0a40911935b77b86859eb5223d58d660df1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^10.1",
+                "vimeo/psalm": "5.16.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\Math\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Arbitrary-precision arithmetic library",
+            "keywords": [
+                "Arbitrary-precision",
+                "BigInteger",
+                "BigRational",
+                "arithmetic",
+                "bigdecimal",
+                "bignum",
+                "bignumber",
+                "brick",
+                "decimal",
+                "integer",
+                "math",
+                "mathematics",
+                "rational"
+            ],
+            "support": {
+                "issues": "https://github.com/brick/math/issues",
+                "source": "https://github.com/brick/math/tree/0.12.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-29T23:19:16+00:00"
         },
         {
             "name": "composer/semver",
@@ -1613,6 +1673,298 @@
             "time": "2024-06-28T09:40:51+00:00"
         },
         {
+            "name": "patchlevel/event-sourcing",
+            "version": "3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/patchlevel/event-sourcing.git",
+                "reference": "a87ed933f77b520781cb4f146cec032afdca0e70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/patchlevel/event-sourcing/zipball/a87ed933f77b520781cb4f146cec032afdca0e70",
+                "reference": "a87ed933f77b520781cb4f146cec032afdca0e70",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^3.8.1|^4.0.0",
+                "doctrine/migrations": "^3.3.2",
+                "patchlevel/hydrator": "^1.4.1",
+                "patchlevel/worker": "^1.2.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "psr/cache": "^2.0.0|^3.0.0",
+                "psr/clock": "^1.0",
+                "psr/event-dispatcher": "^1.0",
+                "psr/log": "^2.0.0|^3.0.0",
+                "psr/simple-cache": "^2.0.0|^3.0.0",
+                "ramsey/uuid": "^4.7",
+                "symfony/console": "^5.4.32|^6.4.1|^7.0.1",
+                "symfony/finder": "^5.4.27|^6.4.0|^7.0.0"
+            },
+            "require-dev": {
+                "cspray/phinal": "^2.0.0",
+                "doctrine/orm": "^2.18.0|^3.0.0",
+                "ext-pdo_sqlite": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "infection/infection": "^0.27.10",
+                "league/commonmark": "^2.4",
+                "patchlevel/coding-standard": "^1.3.0",
+                "patchlevel/event-sourcing-psalm-plugin": "^2.1.0",
+                "phpbench/phpbench": "^1.2.15",
+                "phpspec/prophecy-phpunit": "^2.1.0",
+                "phpstan/phpstan": "^1.10.49",
+                "phpunit/phpunit": "^10.5.2",
+                "psalm/plugin-phpunit": "^0.19.0",
+                "roave/infection-static-analysis-plugin": "^1.34.0",
+                "symfony/messenger": "^5.4.31|^6.4.0|^7.0.1",
+                "symfony/var-dumper": "^5.4.29|^6.4.0|^7.0.0",
+                "vimeo/psalm": "^5.17.0",
+                "wnx/commonmark-markdown-renderer": "^1.4"
+            },
+            "suggest": {
+                "patchlevel/event-sourcing-psalm-plugin": "for psalm support"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Patchlevel\\EventSourcing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Badura",
+                    "email": "daniel.badura@patchlevel.de"
+                },
+                {
+                    "name": "David Badura",
+                    "email": "david.badura@patchlevel.de"
+                }
+            ],
+            "description": "A lightweight but also all-inclusive event sourcing library with a focus on developer experience",
+            "homepage": "https://event-sourcing.patchlevel.io",
+            "keywords": [
+                "ddd",
+                "event-sourcing"
+            ],
+            "support": {
+                "issues": "https://github.com/patchlevel/event-sourcing/issues",
+                "source": "https://github.com/patchlevel/event-sourcing/tree/3.2.0"
+            },
+            "time": "2024-07-09T11:59:18+00:00"
+        },
+        {
+            "name": "patchlevel/event-sourcing-bundle",
+            "version": "3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/patchlevel/event-sourcing-bundle.git",
+                "reference": "53f5f9bdfa90099f1c82b14c0a15e5923f33b1cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/patchlevel/event-sourcing-bundle/zipball/53f5f9bdfa90099f1c82b14c0a15e5923f33b1cf",
+                "reference": "53f5f9bdfa90099f1c82b14c0a15e5923f33b1cf",
+                "shasum": ""
+            },
+            "require": {
+                "patchlevel/event-sourcing": "^3.1.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "symfony/cache": "^6.4.0|^7.0.0",
+                "symfony/config": "^6.4.0|^7.0.0",
+                "symfony/console": "^6.4.1|^7.0.1",
+                "symfony/dependency-injection": "^6.4.1|^7.0.1",
+                "symfony/finder": "^6.4.0|^7.0.0",
+                "symfony/http-kernel": "^6.4.1|^7.0.1",
+                "symfony/messenger": "^6.4.0|^7.0.0"
+            },
+            "conflict": {
+                "doctrine/doctrine-bundle": "<2.8"
+            },
+            "require-dev": {
+                "doctrine/migrations": "^3.3.2",
+                "doctrine/orm": "^2.19.4|^3.1.2",
+                "ext-pdo_sqlite": "*",
+                "infection/infection": "^0.27.0",
+                "league/commonmark": "^2.4",
+                "patchlevel/coding-standard": "^1.3.0",
+                "phpspec/prophecy-phpunit": "^2.1.0",
+                "phpstan/phpstan": "^1.10.48",
+                "phpunit/phpunit": "^10.5.2",
+                "psalm/plugin-symfony": "^5.1.0",
+                "roave/security-advisories": "dev-master",
+                "symfony/uid": "^6.4.0|^7.0.0",
+                "symfony/var-dumper": "^6.4.0|^7.0.0",
+                "symfony/web-profiler-bundle": "^6.4.0|^7.0.0",
+                "vimeo/psalm": "^5.17.0",
+                "wnx/commonmark-markdown-renderer": "^1.4"
+            },
+            "suggest": {
+                "patchlevel/event-sourcing-admin-bundle": "for admin ui",
+                "patchlevel/event-sourcing-psalm-plugin": "for psalm integration"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Patchlevel\\EventSourcingBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Badura",
+                    "email": "daniel.badura@patchlevel.de"
+                },
+                {
+                    "name": "David Badura",
+                    "email": "david.badura@patchlevel.de"
+                }
+            ],
+            "description": "symfony bundle for patchlevel/event-sourcing",
+            "homepage": "https://github.com/patchlevel/event-sourcing-bundle",
+            "keywords": [
+                "event-sourcing"
+            ],
+            "support": {
+                "issues": "https://github.com/patchlevel/event-sourcing-bundle/issues",
+                "source": "https://github.com/patchlevel/event-sourcing-bundle/tree/3.2.0"
+            },
+            "time": "2024-07-16T10:07:09+00:00"
+        },
+        {
+            "name": "patchlevel/hydrator",
+            "version": "1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/patchlevel/hydrator.git",
+                "reference": "b2cc966bca642569f0dc6cd74cc77c34de52b7a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/patchlevel/hydrator/zipball/b2cc966bca642569f0dc6cd74cc77c34de52b7a9",
+                "reference": "b2cc966bca642569f0dc6cd74cc77c34de52b7a9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "php": "~8.1.0 || ~8.2.0  || ~8.3.0"
+            },
+            "require-dev": {
+                "cspray/phinal": "^2.0.0",
+                "infection/infection": "^0.27.8",
+                "patchlevel/coding-standard": "^1.3.0",
+                "phpbench/phpbench": "^1.2.15",
+                "phpspec/prophecy-phpunit": "^2.1.0",
+                "phpstan/phpstan": "^1.10.49",
+                "phpunit/phpunit": "^10.5.2",
+                "psalm/plugin-phpunit": "^0.19.0",
+                "psr/cache": "^2.0.0|^3.0.0",
+                "psr/simple-cache": "^2.0.0|^3.0.0",
+                "roave/infection-static-analysis-plugin": "^1.34.0",
+                "symfony/var-dumper": "^5.4.29|^6.4.0|^7.0.0",
+                "vimeo/psalm": "^5.17.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Patchlevel\\Hydrator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Badura",
+                    "email": "daniel.badura@patchlevel.de"
+                },
+                {
+                    "name": "David Badura",
+                    "email": "david.badura@patchlevel.de"
+                }
+            ],
+            "description": "Hydrator",
+            "homepage": "https://github.com/patchlevel/hydrator",
+            "keywords": [
+                "hydrator",
+                "serializer"
+            ],
+            "support": {
+                "issues": "https://github.com/patchlevel/hydrator/issues",
+                "source": "https://github.com/patchlevel/hydrator/tree/1.5.1"
+            },
+            "time": "2024-10-15T11:28:23+00:00"
+        },
+        {
+            "name": "patchlevel/worker",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/patchlevel/worker.git",
+                "reference": "37cf39383ddaf4b65ed04cecfb4fb6c6fe5cbdf7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/patchlevel/worker/zipball/37cf39383ddaf4b65ed04cecfb4fb6c6fe5cbdf7",
+                "reference": "37cf39383ddaf4b65ed04cecfb4fb6c6fe5cbdf7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "symfony/event-dispatcher": "^5.4.26|^6.4.0|^7.0.0"
+            },
+            "require-dev": {
+                "cspray/phinal": "^2.0.0",
+                "infection/infection": "^0.27.8",
+                "patchlevel/coding-standard": "^1.3.0",
+                "phpbench/phpbench": "^1.2.15",
+                "phpspec/prophecy-phpunit": "^2.1.0",
+                "phpstan/phpstan": "^1.10.49",
+                "phpunit/phpunit": "^10.5.2",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "roave/infection-static-analysis-plugin": "^1.34.0",
+                "symfony/var-dumper": "^5.4.29|^6.4.0|^7.0.0",
+                "vimeo/psalm": "^5.17.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Patchlevel\\Worker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Badura",
+                    "email": "daniel.badura@patchlevel.de"
+                },
+                {
+                    "name": "David Badura",
+                    "email": "david.badura@patchlevel.de"
+                }
+            ],
+            "description": "Gives the opportunity to build a stable worker that terminates properly when limits are exceeded.",
+            "homepage": "https://github.com/patchlevel/worker",
+            "keywords": [
+                "console",
+                "worker"
+            ],
+            "support": {
+                "issues": "https://github.com/patchlevel/worker/issues",
+                "source": "https://github.com/patchlevel/worker/tree/1.2.0"
+            },
+            "time": "2024-03-12T11:15:22+00:00"
+        },
+        {
             "name": "phpdocumentor/reflection-common",
             "version": "2.2.0",
             "source": {
@@ -2247,6 +2599,238 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "psr/simple-cache",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
+            },
+            "time": "2021-10-29T13:26:27+00:00"
+        },
+        {
+            "name": "ramsey/collection",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/collection.git",
+                "reference": "a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/collection/zipball/a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5",
+                "reference": "a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "captainhook/plugin-composer": "^5.3",
+                "ergebnis/composer-normalize": "^2.28.3",
+                "fakerphp/faker": "^1.21",
+                "hamcrest/hamcrest-php": "^2.0",
+                "jangregor/phpstan-prophecy": "^1.0",
+                "mockery/mockery": "^1.5",
+                "php-parallel-lint/php-console-highlighter": "^1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpcsstandards/phpcsutils": "^1.0.0-rc1",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpstan/extension-installer": "^1.2",
+                "phpstan/phpstan": "^1.9",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3",
+                "phpunit/phpunit": "^9.5",
+                "psalm/plugin-mockery": "^1.1",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "ramsey/coding-standard": "^2.0.3",
+                "ramsey/conventional-commits": "^1.3",
+                "vimeo/psalm": "^5.4"
+            },
+            "type": "library",
+            "extra": {
+                "captainhook": {
+                    "force-install": true
+                },
+                "ramsey/conventional-commits": {
+                    "configFile": "conventional-commits.json"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Collection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "A PHP library for representing and manipulating collections.",
+            "keywords": [
+                "array",
+                "collection",
+                "hash",
+                "map",
+                "queue",
+                "set"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/collection/issues",
+                "source": "https://github.com/ramsey/collection/tree/2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ramsey",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ramsey/collection",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-12-31T21:50:55+00:00"
+        },
+        {
+            "name": "ramsey/uuid",
+            "version": "4.7.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "91039bc1faa45ba123c4328958e620d382ec7088"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/91039bc1faa45ba123c4328958e620d382ec7088",
+                "reference": "91039bc1faa45ba123c4328958e620d382ec7088",
+                "shasum": ""
+            },
+            "require": {
+                "brick/math": "^0.8.8 || ^0.9 || ^0.10 || ^0.11 || ^0.12",
+                "ext-json": "*",
+                "php": "^8.0",
+                "ramsey/collection": "^1.2 || ^2.0"
+            },
+            "replace": {
+                "rhumsaa/uuid": "self.version"
+            },
+            "require-dev": {
+                "captainhook/captainhook": "^5.10",
+                "captainhook/plugin-composer": "^5.3",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+                "doctrine/annotations": "^1.8",
+                "ergebnis/composer-normalize": "^2.15",
+                "mockery/mockery": "^1.3",
+                "paragonie/random-lib": "^2",
+                "php-mock/php-mock": "^2.2",
+                "php-mock/php-mock-mockery": "^1.3",
+                "php-parallel-lint/php-parallel-lint": "^1.1",
+                "phpbench/phpbench": "^1.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpunit/phpunit": "^8.5 || ^9",
+                "ramsey/composer-repl": "^1.4",
+                "slevomat/coding-standard": "^8.4",
+                "squizlabs/php_codesniffer": "^3.5",
+                "vimeo/psalm": "^4.9"
+            },
+            "suggest": {
+                "ext-bcmath": "Enables faster math with arbitrary-precision integers using BCMath.",
+                "ext-gmp": "Enables faster math with arbitrary-precision integers using GMP.",
+                "ext-uuid": "Enables the use of PeclUuidTimeGenerator and PeclUuidRandomGenerator.",
+                "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
+            },
+            "type": "library",
+            "extra": {
+                "captainhook": {
+                    "force-install": true
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Ramsey\\Uuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHP library for generating and working with universally unique identifiers (UUIDs).",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/uuid/issues",
+                "source": "https://github.com/ramsey/uuid/tree/4.7.6"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ramsey",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ramsey/uuid",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-04-27T21:32:50+00:00"
         },
         {
             "name": "roadrunner-php/roadrunner-api-dto",

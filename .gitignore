@@ -31,3 +31,5 @@ phpstan.neon
 ###> baldinof/roadrunner-bundle ###
 /bin/rr
 ###< baldinof/roadrunner-bundle ###
+
+docker/*_data/
