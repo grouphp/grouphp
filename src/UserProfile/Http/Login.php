@@ -18,7 +18,6 @@ final class Login extends AbstractController
         AuthenticationUtils $authenticationUtils,
     ): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
