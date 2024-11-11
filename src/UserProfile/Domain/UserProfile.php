@@ -11,12 +11,13 @@ use Patchlevel\Hydrator\Attribute\DataSubjectId;
 use Patchlevel\Hydrator\Attribute\PersonalData;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @see UserProfileTest
  */
 #[Aggregate('user_profile')]
-final class UserProfile extends BasicAggregateRoot implements PasswordAuthenticatedUserInterface
+final class UserProfile extends BasicAggregateRoot implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -75,5 +76,20 @@ final class UserProfile extends BasicAggregateRoot implements PasswordAuthentica
     #[\Override] public function getPassword(): ?string
     {
         return $this->hashedPassword;
+    }
+
+    #[\Override] public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    #[\Override] public function eraseCredentials(): void
+    {
+        // TODO: check if needed
+    }
+
+    #[\Override] public function getUserIdentifier(): string
+    {
+        return $this->email();
     }
 }
