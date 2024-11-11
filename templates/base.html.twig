@@ -12,6 +12,9 @@
         {% endblock %}
     </head>
     <body>
+        <aside>
+            <a href="{{ path('_logout_main') }}">{{ "Logout"|trans }}</a>
+        </aside>
         {% block body %}{% endblock %}
     </body>
 </html>
