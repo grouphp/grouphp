@@ -13,11 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('register')]
+#[Route('registration')]
 #[AsController]
-final class Register extends AbstractController
+final class Registration extends AbstractController
 {
     public function __invoke(
         Request $request,
@@ -35,19 +36,22 @@ final class Register extends AbstractController
             /** @var RegistrationData $data */
             $data = $form->getData();
 
-            if ($credentials->findByEmail($data->email)) {
+            try {
+                $credentials->findByEmail($data->email);
                 $form->addError(new FormError($translator->trans('email_in_use')));
                 goto render;
+            } catch (UserNotFoundException) {
+                $profile = UserProfile::startWithRegistration(
+                    UserProfileId::generate(),
+                    $data->email,
+                    $data->password,
+                    $hasher,
+                );
+
+                $profiles->save($profile);
+
+                return $this->redirectToRoute('dashboard');
             }
-
-            $profile = UserProfile::startWithRegistration(
-                UserProfileId::generate(),
-                $data->email,
-                $data->password,
-                $hasher,
-            );
-
-            $profiles->save($profile);
         }
 
         render:

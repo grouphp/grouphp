@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 // TODO: where should I place that one?
-#[Route('dashboard')]
+#[Route('dashboard', name: 'dashboard')]
 final class Dashboard extends AbstractController
 {
     public function __invoke(UserInterface $user): Response
