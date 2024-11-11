@@ -17,6 +17,7 @@
               bcmath
               apcu
               xdebug
+              xsl
           ]));
           extraConfig = ''
             xdebug.mode=off
@@ -24,17 +25,18 @@
             memory_limit=256M
           '';
         },
-
 }:
 
 pkgs.mkShell {
     buildInputs = [
         php
-        pkgs.php83Packages.composer
         pkgs.symfony-cli
     ];
 
     shellHook = ''
+        # Add the `bin` directory in the current directory to PATH
+        export PATH="$PWD/bin:$PATH"
         php -v
+        composer -V
     '';
 }
