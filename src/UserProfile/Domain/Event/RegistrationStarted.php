@@ -15,6 +15,6 @@ final readonly class RegistrationStarted
         public UserProfileId $id,
         #[PersonalData(fallback: 'redacted')]
         public string $email,
-        public string $hashedPassword,
+        public string $hashedPassword
     ) {}
 }

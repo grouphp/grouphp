@@ -31,6 +31,7 @@ pkgs.mkShell {
     buildInputs = [
         php
         pkgs.symfony-cli
+        pkgs.just
     ];
 
     shellHook = ''

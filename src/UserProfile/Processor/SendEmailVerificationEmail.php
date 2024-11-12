@@ -4,26 +4,44 @@ namespace App\UserProfile\Processor;
 
 
 use App\UserProfile\Domain\Event\RegistrationStarted;
+use App\UserProfile\Domain\UserProfileRepository;
 use Patchlevel\EventSourcing\Attribute\Processor;
 use Patchlevel\EventSourcing\Attribute\Subscribe;
-use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
+use Symfony\Component\Translation\LocaleSwitcher;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Processor('user_profile.send_verification_email')]
 final readonly class SendEmailVerificationEmail
 {
     public function __construct(
         private NotifierInterface $notifier,
+        private TranslatorInterface $translator,
+        private LocaleSwitcher $localeSwitcher,
+        private LoginLinkHandlerInterface $loginLinkHandler,
+        private UserProfileRepository $profiles,
     ){}
 
     #[Subscribe(RegistrationStarted::class)]
     public function __invoke(RegistrationStarted $registration): void
     {
-        $this->notifier->send(
-            (new Notification('New Invoice', ['email']))
-                ->content('You got a new invoice for 15 EUR.'),
-            new Recipient(email: $registration->email)
-        );
+        $profile = $this->profiles->load($registration->id);
+
+        $this->localeSwitcher->runWithLocale('en', function() use ($registration, $profile): void {
+            $link = $this->loginLinkHandler->createLoginLink($profile);
+
+            $notification = new LoginLinkNotification(
+                $link,
+                $this->translator->trans('Welcome')
+            );
+
+            $this->notifier->send(
+                $notification,
+                new Recipient(email: $registration->email)
+            );
+        });
     }
 }

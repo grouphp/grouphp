@@ -5,7 +5,7 @@ namespace App\UserProfile\Http;
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileId;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\Credentials;
+use App\UserProfile\Projector\ActiveAccounts;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,11 +21,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class Registration extends AbstractController
 {
     public function __invoke(
-        Request $request,
+        Request                     $request,
         UserPasswordHasherInterface $hasher,
-        UserProfileRepository $profiles,
-        Credentials $credentials,
-        TranslatorInterface $translator,
+        UserProfileRepository       $profiles,
+        ActiveAccounts              $credentials,
+        TranslatorInterface         $translator,
     ): Response
     {
         $form = $this->createForm(RegistrationType::class);

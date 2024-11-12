@@ -5,8 +5,8 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users_in_memory: { memory: null }
-        aggregate_credentials:
-            id: App\UserProfile\Projector\Credentials
+        active_accounts:
+            id: App\UserProfile\Security\ActiveAccountUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -14,7 +14,7 @@ security:
         main:
             lazy: true
             login_throttling: ~
-            provider: aggregate_credentials
+            provider: active_accounts
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -27,6 +27,17 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
+
+            login_link:
+                check_route: login_check
+                signature_properties: ['id', 'email']
+                lifetime: 2880 # 48 hours
+                # TODO: configure it to be used a single time only.
+                #       https://symfony.com/doc/current/security/login_link.html#configure-a-maximum-use-of-a-link
+                #max_uses: 1
+                # TODO: finally activate the user
+                #success_handler: App\Security\Authentication\AuthenticationSuccessHandler
+
             logout:
                 path: /logout
                 # where to redirect after logout

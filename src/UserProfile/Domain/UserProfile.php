@@ -52,6 +52,11 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
         return $this->id;
     }
 
+    public function getId(): string
+    {
+        return $this->id->toString();
+    }
+
     public function email(): string
     {
         return $this->email;
