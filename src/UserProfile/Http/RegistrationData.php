@@ -8,10 +8,10 @@ final class RegistrationData
 {
     #[Assert\NotBlank]
     #[Assert\Email]
-    public $email;
+    public string $email;
 
     #[Assert\NotBlank]
     #[Assert\PasswordStrength]
     #[Assert\NotCompromisedPassword]
-    public $password;
+    public string $password;
 }

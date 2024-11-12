@@ -15,6 +15,16 @@
         <aside>
             <a href="{{ path('_logout_main') }}">{{ "Logout"|trans }}</a>
         </aside>
-        {% block body %}{% endblock %}
+        <main>
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    {# TODO: make the classes static, because tailwindcss needs to keep it later #}
+                    <div class="{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </main>
     </body>
 </html>

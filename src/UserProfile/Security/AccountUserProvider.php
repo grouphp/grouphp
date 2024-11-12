@@ -4,18 +4,18 @@ namespace App\UserProfile\Security;
 
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\ActiveAccounts;
+use App\UserProfile\Projector\Accounts;
 use Patchlevel\EventSourcing\Repository\AggregateNotFound;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-final readonly class ActiveAccountUserProvider implements UserProviderInterface
+final readonly class AccountUserProvider implements UserProviderInterface
 {
     public function __construct(
         private UserProfileRepository $profiles,
-        private ActiveAccounts $accounts
+        private Accounts $accounts
     ) {}
     #[\Override] public function refreshUser(UserInterface $user): UserInterface
     {
@@ -23,7 +23,11 @@ final readonly class ActiveAccountUserProvider implements UserProviderInterface
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
         }
 
-        return $this->profiles->load($user->id());
+        try {
+            return $this->profiles->load($user->id());
+        } catch (AggregateNotFound $e) {
+            throw new UserNotFoundException($user->id()->toString(), previous: $e);
+        }
     }
 
     #[\Override] public function supportsClass(string $class): bool

@@ -6,7 +6,7 @@ security:
     providers:
         users_in_memory: { memory: null }
         active_accounts:
-            id: App\UserProfile\Security\ActiveAccountUserProvider
+            id: App\UserProfile\Security\AccountUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -29,14 +29,15 @@ security:
                 enable_csrf: true
 
             login_link:
-                check_route: login_check
-                signature_properties: ['id', 'email']
-                lifetime: 2880 # 48 hours
+                check_route: email_verify
+                signature_properties: ['email']
+                lifetime: 172920 # 48 hours + 2 minutes send delay
                 # TODO: configure it to be used a single time only.
                 #       https://symfony.com/doc/current/security/login_link.html#configure-a-maximum-use-of-a-link
                 #max_uses: 1
-                # TODO: finally activate the user
-                #success_handler: App\Security\Authentication\AuthenticationSuccessHandler
+                success_handler: App\UserProfile\Security\EmailVerifiedHandler
+                # TODO: implement App\Security\Authentication\AuthenticationFailureHandler
+                #failure_handler: App\Security\Authentication\AuthenticationFailureHandler
 
             logout:
                 path: /logout

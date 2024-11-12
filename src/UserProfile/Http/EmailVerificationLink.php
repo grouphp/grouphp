@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/login_check', name: 'login_check')]
+#[Route('email_verify', name: 'email_verify')]
 #[AsController]
 final class EmailVerificationLink extends AbstractController
 {

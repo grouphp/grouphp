@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-#[Route('login', name: "app_login")]
+#[Route('login', name: 'app_login')]
 #[AsController]
 final class Login extends AbstractController
 {

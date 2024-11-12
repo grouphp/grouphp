@@ -1,6 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+    {# TODO: add allow only if not already logged in #}
     {{ form_start(form) }}
         {{ form_errors(form) }}
         {{ form_rest(form) }}
