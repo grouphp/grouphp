@@ -13,8 +13,11 @@
     </head>
     <body>
         <aside>
-            <a href="{{ path('_logout_main') }}">{{ "Logout"|trans }}</a>
+            {{ knp_menu_render('user') }}
         </aside>
+        <nav>
+            {{ knp_menu_render('main') }}
+        </nav>
         <main>
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
