@@ -20,9 +20,11 @@ final readonly class MenuBuilder
         $user = $this->security->getUser();
 
         if ($user) {
+            // TODO: pending implementation
             $menu->addChild('Logout', ['route' => '_logout_main']);
             $menu->addChild('Profile', ['route' => '_logout_main']);
         } else {
+            // TODO: pending implementation
             $menu->addChild('Login', ['route' => Login::class]);
             $menu->addChild('Registration', ['route' => Registration::class]);
         }
