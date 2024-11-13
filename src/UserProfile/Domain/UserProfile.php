@@ -38,7 +38,7 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
      */
     private array $roles = ['ROLE_PENDING_EMAIL_VERIFICATION'];
 
-    public static function startWithRegistration(
+    public static function register(
         UserProfileId $id,
         string $email,
         string $password,
@@ -83,7 +83,7 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
         $this->id = $event->id;
         $this->email = $event->email;
         $this->hashedPassword = $event->hashedPassword;
-        $this->roles = ['ROLE_USER'];
+        $this->roles = array_diff($this->roles, ['ROLE_PENDING_EMAIL_VERIFICATION']);
     }
 
     public function id(): UserProfileId

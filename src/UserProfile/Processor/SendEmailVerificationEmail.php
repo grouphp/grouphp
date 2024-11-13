@@ -7,6 +7,7 @@ use App\UserProfile\Domain\Event\RegistrationStarted;
 use App\UserProfile\Domain\UserProfileRepository;
 use Patchlevel\EventSourcing\Attribute\Processor;
 use Patchlevel\EventSourcing\Attribute\Subscribe;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
@@ -21,6 +22,7 @@ final readonly class SendEmailVerificationEmail
         private NotifierInterface $notifier,
         private TranslatorInterface $translator,
         private LocaleSwitcher $localeSwitcher,
+        #[Autowire(service: 'security.authenticator.login_link_handler.main')]
         private LoginLinkHandlerInterface $loginLinkHandler,
         private UserProfileRepository $profiles,
     ){}

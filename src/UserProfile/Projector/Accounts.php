@@ -27,6 +27,8 @@ final class Accounts
     #[Subscribe(RegistrationStarted::class)]
     public function handleRegistrationStarted(RegistrationStarted $event): void
     {
+        // TODO: don't save the password here, because it means that I can login
+        //       without the email verification.
         $this->connection->executeStatement("
             INSERT INTO {$this->table()}
                 (user_profile_id, email_verified_at, email, password) 

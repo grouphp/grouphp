@@ -41,7 +41,7 @@ final class Registration extends AbstractController
                 $form->addError(new FormError($translator->trans('email_in_use')));
                 goto render;
             } catch (UserNotFoundException) {
-                $profile = UserProfile::startWithRegistration(
+                $profile = UserProfile::register(
                     UserProfileId::generate(),
                     $data->email,
                     $data->password,

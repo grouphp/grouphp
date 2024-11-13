@@ -15,7 +15,7 @@ final class UserProfileTest extends TestCase
     public function testRegistration(): void
     {
         $id = UserProfileId::generate();
-        $profile = UserProfile::startWithRegistration(
+        $profile = UserProfile::register(
             $id,
             'foo@email.com',
             'password124',
