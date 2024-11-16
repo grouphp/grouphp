@@ -14,10 +14,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class AppFixtures extends Fixture
 {
     public function __construct(
-        private UserProfileRepository $profiles,
-        private UserPasswordHasherInterface $passwordHasher,
-        private ClockInterface $clock,
-        private Accounts $accounts,
+        private readonly UserProfileRepository       $profiles,
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly ClockInterface              $clock,
+        private readonly Accounts                    $accounts,
     ){}
 
     public function load(ObjectManager $manager): void

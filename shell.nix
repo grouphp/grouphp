@@ -20,7 +20,6 @@
               xsl
           ]));
           extraConfig = ''
-            xdebug.mode=off
             xdebug.start_with_request=yes
             memory_limit=256M
           '';
@@ -37,6 +36,7 @@ pkgs.mkShell {
     shellHook = ''
         # Add the `bin` directory in the current directory to PATH
         export PATH="$PWD/bin:$PATH"
+        export XDEBUG_MODE=develop,debug
         php -v
         composer -V
     '';
