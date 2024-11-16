@@ -4,6 +4,8 @@ log_level: debug
 processes:
   app:
     command: "bin/rr serve -c .rr.dev.yaml --debug"
+  message-consumer:
+    command: "bin/console messenger:consume async"
   projections:
     command: "bin/console event-sourcing:subscription:run"
   postgres:

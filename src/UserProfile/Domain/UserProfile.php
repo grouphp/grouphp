@@ -87,7 +87,14 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
         $this->id = $event->id;
         $this->email = $event->email;
         $this->hashedPassword = $event->hashedPassword;
-        $this->roles = array_values(array_diff($this->roles, ['ROLE_PENDING_EMAIL_VERIFICATION']));
+
+        // Removes pending verification
+        $this->roles = array_values(array_diff(
+            $this->roles,
+            ['ROLE_PENDING_EMAIL_VERIFICATION']
+        ));
+
+        $this->roles[] = 'ROLE_USER';
     }
 
     public function id(): UserProfileId
