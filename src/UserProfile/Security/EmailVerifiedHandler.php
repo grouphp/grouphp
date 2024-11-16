@@ -5,7 +5,6 @@ namespace App\UserProfile\Security;
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileRepository;
 use App\UserProfile\Projector\Accounts;
-use JetBrains\PhpStorm\NoReturn;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +25,7 @@ final readonly class EmailVerifiedHandler implements AuthenticationSuccessHandle
         private TranslatorInterface $translator,
     ) {}
 
-    #[NoReturn] #[\Override] public function onAuthenticationSuccess(Request $request, TokenInterface $token): ?Response
+    #[\Override] public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response
     {
         /** @var UserProfile $profile */
         $profile = $token->getUser();

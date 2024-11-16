@@ -15,6 +15,7 @@ use Psr\Clock\ClockInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * @see UserProfileTest
@@ -68,6 +69,9 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
 
     public function verifyEmail(Accounts $accounts, ClockInterface $clock): void
     {
+        Assert::stringNotEmpty($this->email);
+        Assert::stringNotEmpty($this->hashedPassword);
+
         // TODO: verify that email is not taken in the meantime
         $this->recordThat(new EmailVerified(
             $this->id,
@@ -83,7 +87,7 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
         $this->id = $event->id;
         $this->email = $event->email;
         $this->hashedPassword = $event->hashedPassword;
-        $this->roles = array_diff($this->roles, ['ROLE_PENDING_EMAIL_VERIFICATION']);
+        $this->roles = array_values(array_diff($this->roles, ['ROLE_PENDING_EMAIL_VERIFICATION']));
     }
 
     public function id(): UserProfileId
@@ -91,7 +95,7 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
         return $this->id;
     }
 
-    public function email(): string
+    public function email(): ?string
     {
         return $this->email;
     }
@@ -107,12 +111,12 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
     /**
      * Used by the Login-Link verification
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function password(): string
+    public function password(): ?string
     {
         return $this->hashedPassword;
     }
