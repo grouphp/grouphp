@@ -1,43 +1,24 @@
-{
-    # Pinning packages with URLs inside a Nix expression
-    # https://nix.dev/tutorials/first-steps/towards-reproducibility-pinning-nixpkgs#pinning-packages-with-urls-inside-a-nix-expression
-    # Picking the commit can be done via https://status.nixos.org,
-    # which lists all the releases and the latest commit that has passed all tests.
-    pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/345c263f2f53a3710abe117f28a5cb86d0ba4059.tar.gz") {},
+{ pkgs ? import <nixpkgs> {} }:
 
-    php ? pkgs.php83.buildEnv {
-          extensions = ({ enabled, all }: enabled ++ (with all; [
-              redis
-              openssl
-              pcntl
-              pdo_pgsql
-              mbstring
-              intl
-              curl
-              bcmath
-              apcu
-              xdebug
-              xsl
-          ]));
-          extraConfig = ''
-            xdebug.mode=off
-            xdebug.start_with_request=yes
-            memory_limit=256M
-          '';
-        },
-}:
+let
+  builderPkgs = import ./builder.nix { inherit pkgs; };
+in
 
 pkgs.mkShell {
-    buildInputs = [
-        php
-        pkgs.symfony-cli
-        pkgs.just
-    ];
+  # buildInputs is for dependencies you'd need "at run time",
+  # were you to to use nix-build not nix-shell and build whatever you were working on
+  #buildInputs = [
+  #  builderPkgs.php
+  #  builderPkgs.symfonyCli
+  #  builderPkgs.just
+  #];
 
-    shellHook = ''
-        # Add the `bin` directory in the current directory to PATH
-        export PATH="$PWD/bin:$PATH"
-        php -v
-        composer -V
-    '';
+  buildInputs = pkgs.lib.attrValues builderPkgs;
+
+  shellHook = ''
+      # Add any environment setup commands here if needed
+      echo "PHP version: $(php -v)"
+      echo "Symfony CLI version: $(symfony -v)"
+      echo "Just version: $(just --version)"
+  '';
 }
