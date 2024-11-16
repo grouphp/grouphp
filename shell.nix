@@ -31,11 +31,17 @@ pkgs.mkShell {
         php
         pkgs.symfony-cli
         pkgs.just
+        pkgs.process-compose
+        pkgs.mailpit
+        pkgs.postgresql
     ];
 
     shellHook = ''
         # Add the `bin` directory in the current directory to PATH
         export PATH="$PWD/bin:$PATH"
+        # process-compose settings
+        export PC_CONFIG_FILES=process-compose.yaml
+        export PC_PORT_NUM=8081
         export XDEBUG_MODE=develop,debug
         php -v
         composer -V

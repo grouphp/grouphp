@@ -1,0 +1,14 @@
+version: "0.5"
+log_level: debug
+
+processes:
+  app:
+    command: "bin/rr serve -c .rr.dev.yaml --debug"
+  postgres:
+    # port 5432 to use the database
+    command: "postgres -D .data/postgres"
+  testmails:
+    # port 8025 to show gui
+    command: "mailpit"
+    availability:
+      restart: "always"
