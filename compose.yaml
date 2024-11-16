@@ -21,22 +21,6 @@ services:
       - ./docker/database_data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
-###> patchlevel/event-sourcing-bundle ###
-  eventstore:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    ports:
-      - "5433:5432"
-    expose:
-      - "5432"
-    volumes:
-      - ./docker/eventstore_data:/var/lib/postgresql/data:rw
-###< patchlevel/event-sourcing-bundle ###
-
 ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit
