@@ -10,7 +10,7 @@ when@dev:
         subscription:
             catch_up: true
             throw_on_error: true
-            run_after_aggregate_save: true
+            run_after_aggregate_save: false
             rebuild_after_file_change: true
             auto_setup: true
 

@@ -4,6 +4,8 @@ log_level: debug
 processes:
   app:
     command: "bin/rr serve -c .rr.dev.yaml --debug"
+  projections:
+    command: "bin/console event-sourcing:subscription:run"
   postgres:
     # port 5432 to use the database
     command: "postgres -D .data/postgres"

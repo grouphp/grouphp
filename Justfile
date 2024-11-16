@@ -5,13 +5,10 @@ test:
     vendor/bin/psalm
     vendor/bin/phpstan
 
-start:
-    process-compose up -D
+up:
+    process-compose up
 
-attach:
-    process-compose attach
-
-stop:
+down:
     process-compose down
 
 initialize:
@@ -22,10 +19,11 @@ initialize:
     bin/console event-sourcing:schema:create
     bin/console doctrine:database:create
     bin/console messenger:setup-transports
+    process-compose down
 
 reinitialize:
     # the - ignores the status code.
     # When we cannot stop a project it is not started, so this one is fine.
-    -just stop
+    -process-compose down
     rm -rf .data/
     just initialize
