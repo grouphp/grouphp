@@ -11,19 +11,20 @@ up:
 down:
     process-compose down
 
-initialize:
+setup:
     initdb --pgdata=.data/postgres --username=root --pwfile=.POSTGRES_DATABASE_PASSWORD
+    process-compose up -D # TODO: properly implement readiness probes
     composer install
-    process-compose up -D
     bin/console event-sourcing:database:create
     bin/console event-sourcing:schema:create
     bin/console doctrine:database:create
     bin/console messenger:setup-transports
+    bin/console doctrine:fixtures:load --no-interaction
     process-compose down
 
-reinitialize:
+setup-from-scratch:
     # the - ignores the status code.
     # When we cannot stop a project it is not started, so this one is fine.
     -process-compose down
     rm -rf .data/
-    just initialize
+    just setup

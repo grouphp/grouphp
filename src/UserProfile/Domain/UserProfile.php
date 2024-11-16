@@ -4,7 +4,7 @@ namespace App\UserProfile\Domain;
 
 use App\UserProfile\Domain\Event\EmailVerified;
 use App\UserProfile\Domain\Event\RegistrationStarted;
-use App\UserProfile\Projector\Accounts;
+use App\UserProfile\Projector\ActiveAccounts;
 use Patchlevel\EventSourcing\Aggregate\BasicAggregateRoot;
 use Patchlevel\EventSourcing\Attribute\Aggregate;
 use Patchlevel\EventSourcing\Attribute\Apply;
@@ -67,7 +67,7 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
         $this->hashedPassword = $event->hashedPassword;
     }
 
-    public function verifyEmail(Accounts $accounts, ClockInterface $clock): void
+    public function verifyEmail(ActiveAccounts $accounts, ClockInterface $clock): void
     {
         Assert::stringNotEmpty($this->email);
         Assert::stringNotEmpty($this->hashedPassword);

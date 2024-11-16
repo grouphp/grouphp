@@ -5,7 +5,7 @@ namespace App\UserProfile\Http;
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileId;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\Accounts;
+use App\UserProfile\Projector\ActiveAccounts;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ final class Registration extends AbstractController
         Request                     $request,
         UserPasswordHasherInterface $hasher,
         UserProfileRepository       $profiles,
-        Accounts                    $credentials,
+        ActiveAccounts              $activeAccounts,
         TranslatorInterface         $translator,
     ): Response
     {
@@ -37,7 +37,7 @@ final class Registration extends AbstractController
             $data = $form->getData();
 
             try {
-                $credentials->findByEmail($data->email);
+                $activeAccounts->findByEmail($data->email);
                 $form->addError(new FormError($translator->trans('email_in_use')));
                 goto render;
             } catch (UserNotFoundException) {

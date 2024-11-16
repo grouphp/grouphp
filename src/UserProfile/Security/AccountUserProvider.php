@@ -4,7 +4,7 @@ namespace App\UserProfile\Security;
 
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\Accounts;
+use App\UserProfile\Projector\ActiveAccounts;
 use Patchlevel\EventSourcing\Repository\AggregateNotFound;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -18,7 +18,7 @@ final readonly class AccountUserProvider implements UserProviderInterface
 {
     public function __construct(
         private UserProfileRepository $profiles,
-        private Accounts $accounts
+        private ActiveAccounts $activeAccounts
     ) {}
     #[\Override] public function refreshUser(UserInterface $user): UserInterface
     {
@@ -41,7 +41,7 @@ final readonly class AccountUserProvider implements UserProviderInterface
     #[\Override] public function loadUserByIdentifier(string $identifier): UserInterface
     {
         try {
-            return $this->profiles->load($this->accounts->findByEmail($identifier));
+            return $this->profiles->load($this->activeAccounts->findByEmail($identifier));
         } catch (AggregateNotFound $e) {
             throw new UserNotFoundException($identifier, previous: $e);
         }

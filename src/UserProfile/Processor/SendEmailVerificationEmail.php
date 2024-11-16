@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Processor('user_profile.send_verification_email')]
+#[Processor('send_verification_email')]
 final readonly class SendEmailVerificationEmail
 {
     public function __construct(

@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileId;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\Accounts;
+use App\UserProfile\Projector\ActiveAccounts;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Psr\Clock\ClockInterface;
@@ -17,7 +17,7 @@ final class AppFixtures extends Fixture
         private readonly UserProfileRepository       $profiles,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly ClockInterface              $clock,
-        private readonly Accounts                    $accounts,
+        private readonly ActiveAccounts              $accounts,
     ){}
 
     public function load(ObjectManager $manager): void

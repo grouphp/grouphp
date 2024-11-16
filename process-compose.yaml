@@ -4,13 +4,40 @@ log_level: debug
 processes:
   app:
     command: "bin/rr serve -c .rr.dev.yaml --debug"
+    depends_on:
+      database:
+        condition: process_healthy
   message-consumer:
-    command: "bin/console messenger:consume async"
+    command: "bin/console messenger:consume async --time-limit=60 --no-interaction -vv"
+    availability:
+      restart: "always"
+    depends_on:
+      database:
+        condition: process_healthy
+      testmails:
+        condition: process_started
   projections:
-    command: "bin/console event-sourcing:subscription:run"
-  postgres:
+    command: "bin/console event-sourcing:subscription:run --time-limit=60 --no-interaction -vv"
+    availability:
+      restart: "always"
+    depends_on:
+      database:
+        condition: process_healthy
+      projections-catch-up:
+        condition: process_completed_successfully
+  projections-catch-up:
+    command: "bin/console event-sourcing:subscription:boot --time-limit=300 --no-interaction -vv"
+    depends_on:
+      database:
+        condition: process_healthy
+  database:
     # port 5432 to use the database
     command: "postgres -D .data/postgres"
+    availability:
+      restart: always
+    readiness_probe:
+      exec:
+        command: pg_isready
   testmails:
     # port 8025 to show gui
     command: "mailpit"

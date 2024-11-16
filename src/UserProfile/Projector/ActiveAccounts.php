@@ -7,6 +7,7 @@ use App\UserProfile\Domain\Event\RegistrationStarted;
 use App\UserProfile\Domain\UserProfileId;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\TableNotFoundException;
+use Patchlevel\EventSourcing\Attribute\Projector;
 use Patchlevel\EventSourcing\Attribute\Setup;
 use Patchlevel\EventSourcing\Attribute\Subscribe;
 use Patchlevel\EventSourcing\Attribute\Subscriber;
@@ -15,8 +16,8 @@ use Patchlevel\EventSourcing\Subscription\RunMode;
 use Patchlevel\EventSourcing\Subscription\Subscriber\SubscriberUtil;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
-#[Subscriber('accounts', RunMode::FromBeginning)]
-final class Accounts
+#[Projector('active_accounts')]
+final class ActiveAccounts
 {
     use SubscriberUtil;
 
@@ -24,34 +25,17 @@ final class Accounts
         private readonly Connection $connection
     ) {}
 
-    #[Subscribe(RegistrationStarted::class)]
-    public function handleRegistrationStarted(RegistrationStarted $event): void
-    {
-        // TODO: don't save the password here, because it means that I can login
-        //       without the email verification.
-        $this->connection->executeStatement("
-            INSERT INTO {$this->table()}
-                (user_profile_id, email_verified_at, email, password) 
-               VALUES (:user_profile_id, NULL, :email, :password)
-        ", [
-            'user_profile_id' => $event->id->toString(),
-            'email' => $event->email,
-            'password' => $event->hashedPassword,
-        ]);
-    }
-
     #[Subscribe(EmailVerified::class)]
     public function handleEmailVerified(EmailVerified $event): void
     {
         $this->connection->executeStatement("
-            UPDATE {$this->table()}
-                SET email_verified_at = :email_verified_at
-                WHERE user_profile_id = :user_profile_id
-                AND email = :email
+            INSERT INTO {$this->table()}
+                (user_profile_id, email, activated_at) 
+                VALUES (:user_profile_id, :email, :activated_at)
         ", [
             'user_profile_id' => $event->id->toString(),
-            'email_verified_at' => $event->emailVerifiedAt->format(\DateTimeInterface::RFC3339_EXTENDED),
             'email' => $event->email,
+            'activated_at' => $event->emailVerifiedAt->format(\DateTimeInterface::RFC3339),
         ]);
     }
 
@@ -62,9 +46,8 @@ final class Accounts
         $this->connection->executeStatement("
             CREATE TABLE IF NOT EXISTS {$this->table()} (
                 user_profile_id VARCHAR PRIMARY KEY,
-                email_verified_at TIMESTAMP DEFAULT NULL,
                 email VARCHAR UNIQUE NOT NULL,
-                password VARCHAR NOT NULL
+                activated_at TIMESTAMP DEFAULT NULL
              );
         ");
     }
@@ -96,8 +79,8 @@ final class Accounts
 
             return UserProfileId::fromString($profileId);
 
-        } catch (TableNotFoundException) {
-            throw new UserNotFoundException($email);
+        } catch (TableNotFoundException $e) {
+            throw new UserNotFoundException($email, previous: $e);
         }
     }
 }
