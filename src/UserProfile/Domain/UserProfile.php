@@ -73,7 +73,6 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
     {
         Assert::stringNotEmpty($this->email);
 
-        // TODO: verify that email is not taken in the meantime
         $this->recordThat(new EmailVerified(
             $this->id,
             $this->email,
