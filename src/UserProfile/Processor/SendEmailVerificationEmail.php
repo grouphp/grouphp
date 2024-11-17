@@ -32,6 +32,7 @@ final readonly class SendEmailVerificationEmail
     {
         $profile = $this->profiles->load($registration->id);
 
+        // TODO: transfer the locale through the `RegistrationStarted` event
         $this->localeSwitcher->runWithLocale('en', function() use ($registration, $profile): void {
             $link = $this->loginLinkHandler->createLoginLink($profile);
 

@@ -20,7 +20,6 @@ setup:
     bin/console doctrine:database:create
     bin/console messenger:setup-transports
     bin/console doctrine:fixtures:load --no-interaction
-    process-compose down
 
 setup-from-scratch:
     # the - ignores the status code.

@@ -32,6 +32,7 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
 
     #[PersonalData]
     private ?string $email = null;
+    private ?string $hashedInactivePassword = null;
     private ?string $hashedPassword = null;
 
     /**
@@ -64,29 +65,25 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
     {
         $this->id = $event->id;
         $this->email = $event->email;
-        $this->hashedPassword = $event->hashedPassword;
+        $this->hashedInactivePassword = $event->hashedPassword;
     }
 
     public function verifyEmail(ActiveAccounts $accounts, ClockInterface $clock): void
     {
         Assert::stringNotEmpty($this->email);
-        Assert::stringNotEmpty($this->hashedPassword);
 
         // TODO: verify that email is not taken in the meantime
         $this->recordThat(new EmailVerified(
             $this->id,
             $this->email,
             $clock->now(),
-            $this->hashedPassword,
         ));
     }
 
     #[Apply]
     public function applyEmailVerified(EmailVerified $event): void
     {
-        $this->id = $event->id;
-        $this->email = $event->email;
-        $this->hashedPassword = $event->hashedPassword;
+        $this->hashedPassword = $this->hashedInactivePassword;
 
         // Removes pending verification
         $this->roles = array_values(array_diff(
@@ -140,11 +137,13 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
 
     #[\Override] public function eraseCredentials(): void
     {
-        // TODO: check if needed
+        $this->hashedPassword = null;
+        $this->hashedInactivePassword = null;
+        $this->email = null;
     }
 
     #[\Override] public function getUserIdentifier(): string
     {
-        return $this->email();
+        return $this->email;
     }
 }

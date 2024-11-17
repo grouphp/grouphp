@@ -16,6 +16,5 @@ final readonly class EmailVerified
         #[PersonalData(fallback: 'redacted')]
         public string $email,
         public \DateTimeImmutable $emailVerifiedAt,
-        public string $hashedPassword
     ) {}
 }
