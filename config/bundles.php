@@ -17,4 +17,5 @@ return [
     Patchlevel\EventSourcingBundle\PatchlevelEventSourcingBundle::class => ['all' => true],
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+    Patchlevel\EventSourcingAdminBundle\PatchlevelEventSourcingAdminBundle::class => ['all' => true],
 ];

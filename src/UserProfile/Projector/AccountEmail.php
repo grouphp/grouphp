@@ -2,22 +2,18 @@
 
 namespace App\UserProfile\Projector;
 
-use App\UserProfile\Domain\Event\EmailVerified;
-use App\UserProfile\Domain\Event\RegistrationStarted;
+use App\UserProfile\Domain\Event\SignedUp;
 use App\UserProfile\Domain\UserProfileId;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception\TableNotFoundException;
 use Patchlevel\EventSourcing\Attribute\Projector;
 use Patchlevel\EventSourcing\Attribute\Setup;
 use Patchlevel\EventSourcing\Attribute\Subscribe;
-use Patchlevel\EventSourcing\Attribute\Subscriber;
 use Patchlevel\EventSourcing\Attribute\Teardown;
-use Patchlevel\EventSourcing\Subscription\RunMode;
 use Patchlevel\EventSourcing\Subscription\Subscriber\SubscriberUtil;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
-#[Projector('active_accounts')]
-final class ActiveAccounts
+#[Projector('account_email')]
+final class AccountEmail
 {
     use SubscriberUtil;
 
@@ -25,17 +21,16 @@ final class ActiveAccounts
         private readonly Connection $connection
     ) {}
 
-    #[Subscribe(EmailVerified::class)]
-    public function handleEmailVerified(EmailVerified $event): void
+    #[Subscribe(SignedUp::class)]
+    public function handleRegistration(SignedUp $event): void
     {
         $this->connection->executeStatement("
             INSERT INTO {$this->table()}
-                (user_profile_id, email, activated_at) 
-                VALUES (:user_profile_id, :email, :activated_at)
+                (user_profile_id, email) 
+                VALUES (:user_profile_id, :email)
         ", [
             'user_profile_id' => $event->id->toString(),
-            'email' => $event->email,
-            'activated_at' => $event->emailVerifiedAt->format(\DateTimeInterface::RFC3339),
+            'email' => $event->email
         ]);
     }
 
@@ -46,8 +41,7 @@ final class ActiveAccounts
         $this->connection->executeStatement("
             CREATE TABLE IF NOT EXISTS {$this->table()} (
                 user_profile_id VARCHAR PRIMARY KEY,
-                email VARCHAR UNIQUE NOT NULL,
-                activated_at TIMESTAMP DEFAULT NULL
+                email VARCHAR UNIQUE NOT NULL
              );
         ");
     }
@@ -65,22 +59,17 @@ final class ActiveAccounts
 
     public function findByEmail(string $email): UserProfileId
     {
-        try {
-            $profileId = $this->connection->executeQuery(
-                "SELECT user_profile_id FROM {$this->table()} WHERE email = :email",
-                [
-                    'email' => $email,
-                ]
-            )->fetchOne();
+        $profileId = $this->connection->executeQuery(
+            "SELECT user_profile_id FROM {$this->table()} WHERE email = :email",
+            [
+                'email' => $email,
+            ]
+        )->fetchOne();
 
-            if (! $profileId) {
-                throw new UserNotFoundException($email);
-            }
-
-            return UserProfileId::fromString($profileId);
-
-        } catch (TableNotFoundException $e) {
-            throw new UserNotFoundException($email, previous: $e);
+        if (!$profileId) {
+            throw new UserNotFoundException($email);
         }
+
+        return UserProfileId::fromString($profileId);
     }
 }

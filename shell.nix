@@ -42,7 +42,6 @@ pkgs.mkShell {
         # process-compose settings
         export PC_CONFIG_FILES=process-compose.yaml
         export PC_PORT_NUM=8081
-        export XDEBUG_MODE=develop,debug
         php -v
         composer -V
     '';

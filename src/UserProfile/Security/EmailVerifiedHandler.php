@@ -4,7 +4,6 @@ namespace App\UserProfile\Security;
 
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\ActiveAccounts;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +18,6 @@ final readonly class EmailVerifiedHandler implements AuthenticationSuccessHandle
 {
     public function __construct(
         private UserProfileRepository $profiles,
-        private ActiveAccounts        $accounts,
         private ClockInterface        $clock,
         private UrlGeneratorInterface $urlGenerator,
         private TranslatorInterface   $translator,
@@ -27,9 +25,10 @@ final readonly class EmailVerifiedHandler implements AuthenticationSuccessHandle
 
     #[\Override] public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response
     {
-        /** @var UserProfile $profile */
-        $profile = $token->getUser();
-        $profile->verifyEmail($this->accounts, $this->clock);
+        /** @var UserProfile $tokenUser */
+        $tokenUser = $token->getUser();
+        $profile = $this->profiles->load($tokenUser->id());
+        $profile->verifyEmail($this->clock);
         $this->profiles->save($profile);
 
         /** @var Session $session */

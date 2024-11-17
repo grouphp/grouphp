@@ -30,7 +30,7 @@ security:
 
             login_link:
                 check_route: email_verify
-                signature_properties: ['email']
+                signature_properties: ['id', 'email']
                 lifetime: 172920 # 48 hours + 2 minutes send delay
                 # TODO: configure it to be used a single time only.
                 #       https://symfony.com/doc/current/security/login_link.html#configure-a-maximum-use-of-a-link
@@ -47,7 +47,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/dashboard, roles: [ROLE_USER, ROLE_PENDING_EMAIL_VERIFICATION] }
+        - { path: ^/dashboard, roles: [ROLE_USER] }
         - { path: ^/registration, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         # - { path: ^/admin, roles: ROLE_ADMIN }

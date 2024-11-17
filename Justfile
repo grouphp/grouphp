@@ -21,7 +21,7 @@ setup:
     bin/console messenger:setup-transports
     bin/console doctrine:fixtures:load --no-interaction
 
-setup-from-scratch:
+setup-fresh:
     # the - ignores the status code.
     # When we cannot stop a project it is not started, so this one is fine.
     -process-compose down

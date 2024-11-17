@@ -1,0 +1,3 @@
+event_sourcing:
+  resource: '@PatchlevelEventSourcingAdminBundle/config/routes.yaml'
+  prefix: /es-admin

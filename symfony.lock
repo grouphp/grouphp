@@ -53,6 +53,9 @@
     "knplabs/knp-menu-bundle": {
         "version": "v3.4.2"
     },
+    "patchlevel/event-sourcing-admin-bundle": {
+        "version": "1.0.0-alpha4"
+    },
     "patchlevel/event-sourcing-bundle": {
         "version": "3.2",
         "recipe": {

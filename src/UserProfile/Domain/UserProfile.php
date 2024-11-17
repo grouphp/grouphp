@@ -3,8 +3,7 @@
 namespace App\UserProfile\Domain;
 
 use App\UserProfile\Domain\Event\EmailVerified;
-use App\UserProfile\Domain\Event\RegistrationStarted;
-use App\UserProfile\Projector\ActiveAccounts;
+use App\UserProfile\Domain\Event\SignedUp;
 use Patchlevel\EventSourcing\Aggregate\BasicAggregateRoot;
 use Patchlevel\EventSourcing\Attribute\Aggregate;
 use Patchlevel\EventSourcing\Attribute\Apply;
@@ -45,13 +44,15 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
         string $email,
         string $password,
         UserPasswordHasherInterface $passwordHasher,
+        ClockInterface $clock,
     ): self
     {
         $self = new self();
-        $self->recordThat(new RegistrationStarted(
+        $self->recordThat(new SignedUp(
             $id,
             $email,
             $passwordHasher->hashPassword($self, $password),
+            $clock->now(),
         ));
 
         return $self;
@@ -61,14 +62,14 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
      * @psalm-suppress PossiblyUnusedMethod
      */
     #[Apply]
-    public function applyRegistrationStarted(RegistrationStarted $event): void
+    public function applySignedUp(SignedUp $event): void
     {
         $this->id = $event->id;
         $this->email = $event->email;
         $this->hashedInactivePassword = $event->hashedPassword;
     }
 
-    public function verifyEmail(ActiveAccounts $accounts, ClockInterface $clock): void
+    public function verifyEmail(ClockInterface $clock): void
     {
         Assert::stringNotEmpty($this->email);
 
@@ -139,7 +140,6 @@ final class UserProfile extends BasicAggregateRoot implements UserInterface, Pas
     {
         $this->hashedPassword = null;
         $this->hashedInactivePassword = null;
-        $this->email = null;
     }
 
     #[\Override] public function getUserIdentifier(): string

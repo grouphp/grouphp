@@ -15,9 +15,12 @@
         <aside>
             {{ knp_menu_render('user') }}
         </aside>
-        <nav>
-            {{ knp_menu_render('main') }}
-        </nav>
+        {% if is_granted('ROLE_USER') %}
+            <nav>
+                {{ knp_menu_render('main') }}
+            </nav>
+        {% endif %}
+
         <main>
             {% for label, messages in app.flashes %}
                 {% for message in messages %}

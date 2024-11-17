@@ -2,11 +2,12 @@
 
 namespace App\UserProfile\Http;
 
+use App\Controller\Dashboard;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('login', name: 'app_login')]
@@ -14,10 +15,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class Login extends AbstractController
 {
     public function __invoke(
-        Request $request,
+        ?UserInterface $user,
         AuthenticationUtils $authenticationUtils,
     ): Response
     {
+        if ($user && $this->isGranted('ROLE_USER')) {
+            // TODO: improve that one to show a message
+            //       and allow the user to go to the dashboard or login
+            //       with a different account
+            return $this->redirectToRoute(Dashboard::class);
+        }
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user

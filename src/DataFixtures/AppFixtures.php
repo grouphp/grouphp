@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileId;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\ActiveAccounts;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Psr\Clock\ClockInterface;
@@ -17,7 +16,6 @@ final class AppFixtures extends Fixture
         private readonly UserProfileRepository       $profiles,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly ClockInterface              $clock,
-        private readonly ActiveAccounts              $accounts,
     ){}
 
     public function load(ObjectManager $manager): void
@@ -26,12 +24,23 @@ final class AppFixtures extends Fixture
             UserProfileId::generate(),
             'admin@example.com',
             'admin',
-            $this->passwordHasher
+            $this->passwordHasher,
+            $this->clock,
         );
-        $admin->verifyEmail($this->accounts, $this->clock);
+        $admin->verifyEmail($this->clock);
 
         // TODO: figure out how to skip the processors
         //       I don't want to sent the email on `startWithRegistration`
         $this->profiles->save($admin);
+
+        $pending = UserProfile::register(
+            UserProfileId::generate(),
+            'user1@example.com',
+            'user1',
+            $this->passwordHasher,
+            $this->clock,
+        );
+
+        $this->profiles->save($pending);
     }
 }

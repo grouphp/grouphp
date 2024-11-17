@@ -5,7 +5,8 @@ namespace App\UserProfile\Http;
 use App\UserProfile\Domain\UserProfile;
 use App\UserProfile\Domain\UserProfileId;
 use App\UserProfile\Domain\UserProfileRepository;
-use App\UserProfile\Projector\ActiveAccounts;
+use App\UserProfile\Projector\AccountEmail;
+use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +25,9 @@ final class Registration extends AbstractController
         Request                     $request,
         UserPasswordHasherInterface $hasher,
         UserProfileRepository       $profiles,
-        ActiveAccounts              $activeAccounts,
+        AccountEmail                $activeAccounts,
         TranslatorInterface         $translator,
+        ClockInterface              $clock,
     ): Response
     {
         $form = $this->createForm(RegistrationType::class);
@@ -46,11 +48,12 @@ final class Registration extends AbstractController
                     $data->email,
                     $data->password,
                     $hasher,
+                    $clock,
                 );
 
                 $profiles->save($profile);
-
-                return $this->redirectToRoute('dashboard');
+                // TODO: redirect to a check your email page
+                return $this->redirectToRoute(PendingEmailVerification::class);
             }
         }
 

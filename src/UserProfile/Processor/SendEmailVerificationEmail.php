@@ -3,7 +3,7 @@
 namespace App\UserProfile\Processor;
 
 
-use App\UserProfile\Domain\Event\RegistrationStarted;
+use App\UserProfile\Domain\Event\SignedUp;
 use App\UserProfile\Domain\UserProfileRepository;
 use Patchlevel\EventSourcing\Attribute\Processor;
 use Patchlevel\EventSourcing\Attribute\Subscribe;
@@ -27,8 +27,8 @@ final readonly class SendEmailVerificationEmail
         private UserProfileRepository $profiles,
     ){}
 
-    #[Subscribe(RegistrationStarted::class)]
-    public function __invoke(RegistrationStarted $registration): void
+    #[Subscribe(SignedUp::class)]
+    public function __invoke(SignedUp $registration): void
     {
         $profile = $this->profiles->load($registration->id);
 
