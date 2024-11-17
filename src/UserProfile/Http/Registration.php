@@ -52,7 +52,7 @@ final class Registration extends AbstractController
                 );
 
                 $profiles->save($profile);
-                // TODO: redirect to a check your email page
+
                 return $this->redirectToRoute(PendingEmailVerification::class);
             }
         }
