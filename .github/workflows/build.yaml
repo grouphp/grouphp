@@ -1,0 +1,13 @@
+name: Build Images
+on: [push]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - uses: DeterminateSystems/nix-installer-action@main
+        - uses: DeterminateSystems/magic-nix-cache-action@main
+        - run: docker load < $(nix-build build/builder-container.nix)
+        - run: docker run --rm grouphp:latest php -v
+        # Docker run and mount files from the repository
+        - run: docker run --rm -v $(pwd):/app grouphp:latest just setup

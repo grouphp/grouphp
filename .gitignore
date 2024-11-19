@@ -33,3 +33,5 @@ phpstan.neon
 ###< baldinof/roadrunner-bundle ###
 
 .data/
+result
+result-*

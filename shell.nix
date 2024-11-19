@@ -1,11 +1,9 @@
-with import(./builder.nix) { inherit pkgs php symfony-cli just process-compose mailpit; };
+{ pkgs ? import <nixpkgs> {} }:
+
 pkgs.mkShell {
-  nativeBuildInputs = [
-    php
-    symfony-cli
-    just
-    process-compose
-    mailpit
+  name = "grouphp-shell";
+  buildInputs = [
+    (import ./build/php.nix { inherit pkgs; })
   ];
 
     shellHook = ''
