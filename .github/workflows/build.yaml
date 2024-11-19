@@ -1,0 +1,44 @@
+name: Build the base images
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+jobs:
+  Builder:
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/build-base-images.yaml
+    if: contains(github.event.pull_request.labels.*.name, 'Custom Builder')
+    with:
+      ref: ${{ github.event.pull_request.head.ref }}
+  App:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs:
+      - Builder
+    # Run also if the `Builder` was skipped due to missing Label.
+    if: always() && !failure() && !cancelled()
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: false # TODO: push the images to a registry
+          # Assign a tag to the build for this merge request
+          tags: |
+              app:${{ github.event.pull_request.head.ref }}
+          build-args: |
+            # If the Label "Custom Builder" is set, use the custom builder, otherwise use the :main builder
+            BUILDER=ghcr.io/${{ github.repository }}/builder:${{ contains(github.event.pull_request.labels.*.name, 'Custom Builder') && github.event.pull_request.head.ref || 'main' }}
+            
+            

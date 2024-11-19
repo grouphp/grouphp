@@ -27,3 +27,6 @@ setup-fresh:
     -process-compose down
     rm -rf .data/
     just setup
+
+build:
+    docker load < $(nix-build build/builder-container.nix)
