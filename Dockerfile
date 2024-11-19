@@ -1,4 +1,6 @@
-FROM grouphp:latest AS builder
+ARG BUILDER
+
+FROM $BUILDER AS builder
 
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
@@ -16,5 +18,5 @@ EOF
 # TODO: Use only minimal dependencies for the final image.
 #       Also we can trim down the final build. E.g. tests ere not needed.
 #-----------------------------------------------------------------------------------------------------------------------
-FROM grouphp:latest
+FROM $BUILDER
 COPY --from=builder /app /app
