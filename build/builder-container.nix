@@ -19,6 +19,8 @@ pkgs.dockerTools.buildImage {
         pkgs.process-compose
         pkgs.mailpit
         pkgs.postgresql
+        # adds composer
+        pkgs.php83Packages.composer
     ];
   };
 

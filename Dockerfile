@@ -1,7 +1,6 @@
 ARG BUILDER
 
 FROM $BUILDER AS builder
-COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
