@@ -8,6 +8,18 @@ jobs:
         - uses: DeterminateSystems/nix-installer-action@main
         - uses: DeterminateSystems/magic-nix-cache-action@main
         - run: docker load < $(nix-build build/builder-container.nix)
-        - run: docker run --rm grouphp:latest php -v
-        # Docker run and mount files from the repository
-        - run: docker run --rm -v $(pwd):/app grouphp:latest just setup
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@v3
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
+        # TODO: build the final image
+#        - name: Login to Docker Hub
+#          uses: docker/login-action@v3
+#          with:
+#            username: ${{ secrets.DOCKERHUB_USERNAME }}
+#            password: ${{ secrets.DOCKERHUB_TOKEN }}
+        - name: Build and push
+          uses: docker/build-push-action@v6
+          with:
+              push: false # TODO: push the images to a registry
+              tags: user/app:latest
