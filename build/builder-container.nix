@@ -10,6 +10,7 @@ pkgs.dockerTools.buildImage {
     paths = [
         # Installs php and stuff
         (import ./php.nix { inherit pkgs; })
+        # TODO: we should install composer here, using the correct version of php
 
         # Add a minimal shell to the container
         pkgs.bashInteractive
